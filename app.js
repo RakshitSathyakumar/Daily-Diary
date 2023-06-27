@@ -90,21 +90,39 @@ app.post("/compose", function (req, res) {
   res.redirect("/");
 });
 
-app.get("/posts/:postName", function (req, res) {
-  const flag = _.lowerCase(req.params.postName);
-  var check = 0;
-  for (let i = 0; i < posts.length; i++) {
-    const storedTitle = _.lowerCase(posts[i].postTitle);
-    const title = posts[i].postTitle;
-    const body = posts[i].postBody;
-    if (storedTitle === flag) {
-      check = 1;
-      res.render("post", {
-        title: title,
-        body: body,
-      });
-    }
+app.get("/posts/:postId", function (req, res) {
+  const flag = (req.params.postId);
+  console.log(flag);
+  const findBlog = async()=>{
+    const finder = await newBlog.findOne({_id:flag}).then(function(items){
+
+      // const search = _.lowerCase(items.title);
+      // console.log(items);
+      // if(flag === items._id)
+      // {
+        res.render("post",{
+          title : items.title,
+          body : items.text
+        })
+      // }
+    });
+    // console.log(finder);
   }
+  findBlog();
+
+  // var check = 0;
+  // for (let i = 0; i < posts.length; i++) {
+  //   const storedTitle = _.lowerCase(posts[i].postTitle);
+  //   const title = posts[i].postTitle;
+  //   const body = posts[i].postBody;
+  //   if (storedTitle === flag) {
+  //     check = 1;
+  //     res.render("post", {
+  //       title: title,
+  //       body: body,
+  //     });
+  //   }
+  // }
   // if(check === 0)
   // {
   //   alert("Not Found!!");
